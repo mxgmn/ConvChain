@@ -1,4 +1,6 @@
-﻿using System;
+//This is free and unencumbered software released into the public domain.
+
+using System;
 using System.Xml;
 using System.Linq;
 using System.Drawing;
