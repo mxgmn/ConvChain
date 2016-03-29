@@ -1,4 +1,5 @@
-![alt tag](http://i.imgur.com/H7urFch.png)
+![64](http://i.imgur.com/H7urFch.png)
+![24](http://i.imgur.com/sObK54r.png)
 
 How it works. ConvChain passes a sample image through a 1-layer lattice of small overlapping receptive fields. It then runs an MCMC simulation with obtained weights as coefficients in the energy functional.
 
