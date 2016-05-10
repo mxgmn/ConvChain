@@ -1,4 +1,13 @@
 <samples>
-	<sample name="Boulders" receptorSize="3" temperature="0.02" iterations="3" screenshots="2" outputSize="64"/>
-	<sample name="Simple Maze" receptorSize="2" temperature="0.03" iterations="4" screenshots="1" outputSize="128"/>
+	<sample name="Boulders" receptorSize="3" temperature="0.5" iterations="5" screenshots="8" outputSize="32"/>
+	<sample name="Simple Maze" receptorSize="2" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Cave" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Caves" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Chess" receptorSize="2" temperature="1.0" iterations="1" screenshots="8" outputSize="32"/>
+	<sample name="Less Rooms" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Maze" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="River" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Rooms" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Simple Rooms" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="Thick Walls" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
 </samples>

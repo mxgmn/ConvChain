@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+!{}(http://i.imgur.com/fJ8Olxk.png)
+
+ConvChain passes a sample image through a 1-layer lattice of small overlapping receptive fields. It then runs an MCMC simulation with obtained weights as coefficients in the energy functional.
+
+Besides universality, an important advantage of ConvChain is that it can "fill the gaps", i.e. organically continue pre-placed content created by humans or other algorithms. [Example](http://i.imgur.com/byyKHre.gif).
+
+Amit Patel made a [web port](http://www.redblobgames.com/x/1613-convchain/) of ConvChain.
+=======
 ![64](http://i.imgur.com/H7urFch.png)
 ![24](http://i.imgur.com/sObK54r.png)
 
@@ -8,3 +17,4 @@ I used the Heat Bath algorithm for MCMC, but someone might want to use Metropoli
 Besides universality, an important advantage of ConvChain is that it can "fill the gaps", i.e. organically continue pre-placed content created by humans or other algorithms. [Example](http://i.imgur.com/byyKHre.gif).
 
 The obvious thing to do next is to add further layers, so the net could grasp higher-level concepts.
+>>>>>>> origin/master
