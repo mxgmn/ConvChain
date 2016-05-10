@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿//This is free and unencumbered software released into the public domain.
-=======
 //This is free and unencumbered software released into the public domain.
->>>>>>> origin/master
 
 using System;
 using System.Xml;
