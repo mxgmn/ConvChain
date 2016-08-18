@@ -10,4 +10,5 @@
 	<sample name="Rooms" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
 	<sample name="Simple Rooms" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
 	<sample name="Thick Walls" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
+	<sample name="CaveMaze" receptorSize="3" temperature="1.0" iterations="10" screenshots="8" outputSize="32"/>
 </samples>
