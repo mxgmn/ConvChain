@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 static class Program
 {
-	static void Main(string[] args)
+	static void Main()
 	{
 		Stopwatch sw = Stopwatch.StartNew();
 		var xdoc = new XmlDocument();
