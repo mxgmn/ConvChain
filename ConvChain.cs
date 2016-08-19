@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 class Program
 {
-	static void Main(string[] args)
+	static void Main()
 	{
 		var xdoc = new XmlDocument();
 		xdoc.Load("samples.xml");
@@ -16,15 +16,15 @@ class Program
 		for (var xnode = xdoc.FirstChild.FirstChild; xnode != null; xnode = xnode.NextSibling)
 		{
 			string name = xnode.Get("name", "");
-			bool[,] sample = new Bitmap("Samples/" + name + ".bmp").ToArray();
+			bool[,] sample = new Bitmap($"Samples/{name}.bmp").ToArray();
 			int receptorSize = xnode.Get("receptorSize", 2), outputSize = xnode.Get("outputSize", 32), iterations = xnode.Get("iterations", 2);
 			double temperature = xnode.Get("temperature", 1.0);
 
 			for (int k = 0; k < xnode.Get("screenshots", 1); k++)
 			{
-				Console.WriteLine("> " + name + " " + k);
+				Console.WriteLine($"> {name} {k}");
 				Bitmap output = ConvChain(sample, receptorSize, temperature, outputSize, iterations).ToBitmap();
-				output.Save(pass.ToString() + " " + name + " t=" + temperature + " i=" + iterations + " " + k + ".bmp");
+				output.Save($"{pass} {name} t={temperature} i={iterations} {k}.bmp");
 			}
 
 			pass++;

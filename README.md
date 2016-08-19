@@ -10,3 +10,5 @@ Besides universality, an important advantage of ConvChain is that it can "fill t
 * `ConvChainFast.cs` — equivalent faster program (~100 times faster on a 4-core CPU), but in a less human-readable form.
 
 Amit Patel made a [web port](http://www.redblobgames.com/x/1613-convchain/) of ConvChain.
+
+![](http://i.imgur.com/ErTwOqr.png)

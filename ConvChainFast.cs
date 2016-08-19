@@ -28,31 +28,25 @@ static class Program
 
 		for (var xnode = xdoc.FirstChild.FirstChild; xnode != null; xnode = xnode.NextSibling)
 		{
-			string name = xnode.Get("name", "");
-			Bitmap sample = new Bitmap($"Samples/{name}.bmp");
-
 			for (int k = 0; k < xnode.Get("screenshots", 1); k++, pass++)
 			{
 				Job job = new Job();
 				job.number = pass;
 				job.seed = random.Next();
-				job.sample = sample.ToArray();
-				job.sampleWidth = sample.Width;
-				job.sampleHeight = sample.Height;
-				job.name = name;
+				job.name = xnode.Get("name", "");
 				job.temperature = xnode.Get("temperature", 1.0);
 				job.N = xnode.Get("receptorSize", 2);
 				job.outputSize = xnode.Get("outputSize", 32);
 				job.iterations = xnode.Get("iterations", 2);
 
 				jobs.Add(job);
-				Console.WriteLine($"> {name} {k}");
 			}
 		}
 
 		Parallel.ForEach(jobs, job =>
 		{
-			Bitmap output = ConvChain(job.sample, job.sampleWidth, job.sampleHeight, job.N, job.temperature, job.outputSize, job.iterations, job.seed).ToBitmap(job.outputSize);
+			Bitmap sample = new Bitmap($"Samples/{job.name}.bmp");
+			Bitmap output = ConvChain(sample.ToArray(), sample.Width, sample.Height, job.N, job.temperature, job.outputSize, job.iterations, job.seed).ToBitmap(job.outputSize);
 			output.Save($"{job.number} {job.name} t={job.temperature} i={job.iterations}.bmp");
 		});
 
@@ -62,10 +56,9 @@ static class Program
 	struct Job
 	{
 		public int number, seed;
-		public bool[] sample;
 		public string name;
 		public double temperature;
-		public int N, sampleWidth, sampleHeight, outputSize, iterations;
+		public int N, outputSize, iterations;
 	}
 
 	static bool[] ConvChain(bool[] sample, int sampleWidth, int sampleHeight, int N, double temperature, int size, int iterations, int seed)
