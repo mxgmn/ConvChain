@@ -12,6 +12,6 @@ Besides universality, an important advantage of ConvChain is that it can "fill t
 ###### Web ports:
 
 * Amit Patel made a [web port](http://www.redblobgames.com/x/1613-convchain/) of the older slower version, with the main algorithm ported to TypeScript.
-* Kevin Chapelier is making a vanilla javascript [port](http://www.kchapelier.com/convchain-demo/) of the faster version.
+* Kevin Chapelier is making a vanilla JavaScript [port](http://www.kchapelier.com/convchain-demo/) of the faster version.
 
 ![](http://i.imgur.com/ErTwOqr.png)
