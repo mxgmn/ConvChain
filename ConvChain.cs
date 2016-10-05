@@ -109,7 +109,7 @@ static class Stuff
 	{
 		string s = ((XmlElement)node).GetAttribute(attribute);
 		var converter = TypeDescriptor.GetConverter(typeof(T));
-		return s == "" ? defaultT : (T)converter.ConvertFromString(s);
+		return s == "" ? defaultT : (T)converter.ConvertFromInvariantString(s);
 	}
 
 	public static bool[,] ToArray(this Bitmap bitmap)
