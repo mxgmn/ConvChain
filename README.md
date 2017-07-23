@@ -4,8 +4,6 @@ ConvChain passes a sample image through a 1-layer lattice of small overlapping r
 
 In the language of cellular automata, ConvChain takes an input image and builds a probabilistic cellular automaton that is most likely to generate that image.
 
-Test: [tutorial](https://github.com/mxgmn/ConvChain/blob/master/tutorial.md).
-
 Besides universality, an important advantage of ConvChain is that it can "fill the gaps", i.e. organically continue pre-placed content created by humans or other algorithms. [Example](http://i.imgur.com/byyKHre.gif).
 
 * `ConvChain.cs` — basic program.
