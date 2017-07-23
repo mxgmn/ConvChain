@@ -19,7 +19,7 @@ static class Program
 	static void Main()
 	{
 		Stopwatch sw = Stopwatch.StartNew();
-        XDocument xdoc = XDocument.Load("samples.xml");
+		XDocument xdoc = XDocument.Load("samples.xml");
 		int pass = 1;
 
 		List<Job> jobs = new List<Job>();
@@ -29,17 +29,17 @@ static class Program
 		{
 			for (int k = 0; k < xelem.Get("screenshots", 1); k++, pass++)
 			{
-                Job job = new Job()
-                {
-                    number = pass,
-                    seed = random.Next(),
-                    name = xelem.Get("name", ""),
-                    temperature = xelem.Get("temperature", 1.0),
-                    N = xelem.Get("receptorSize", 2),
-                    outputSize = xelem.Get("outputSize", 32),
-                    iterations = xelem.Get("iterations", 2)
-                };
-                jobs.Add(job);
+				Job job = new Job()
+				{
+					number = pass,
+					seed = random.Next(),
+					name = xelem.Get("name", ""),
+					temperature = xelem.Get("temperature", 1.0),
+					N = xelem.Get("receptorSize", 2),
+					outputSize = xelem.Get("outputSize", 32),
+					iterations = xelem.Get("iterations", 2)
+				};
+				jobs.Add(job);
 			}
 		}
 
@@ -146,13 +146,13 @@ static class Program
 
 static class Stuff
 {
-    public static T Get<T>(this XElement xelem, string attribute, T defaultT = default(T))
-    {
-        XAttribute a = xelem.Attribute(attribute);
-        return a == null ? defaultT : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(a.Value);
-    }
+	public static T Get<T>(this XElement xelem, string attribute, T defaultT = default(T))
+	{
+		XAttribute a = xelem.Attribute(attribute);
+		return a == null ? defaultT : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(a.Value);
+	}
 
-    public static bool[] ToArray(this Bitmap bitmap)
+	public static bool[] ToArray(this Bitmap bitmap)
 	{
 		bool[] result = new bool[bitmap.Width * bitmap.Height];
 		for (int i = 0; i < result.Length; i++) result[i] = bitmap.GetPixel(i % bitmap.Width, i / bitmap.Width).R > 0;

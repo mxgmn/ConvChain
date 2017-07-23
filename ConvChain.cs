@@ -9,10 +9,10 @@ class Program
 {
 	static void Main()
 	{
-        XDocument xdoc = XDocument.Load("samples.xml");
+		XDocument xdoc = XDocument.Load("samples.xml");
 		int pass = 1;
 
-        foreach (XElement xelem in xdoc.Root.Elements("sample"))
+		foreach (XElement xelem in xdoc.Root.Elements("sample"))
 		{
 			string name = xelem.Get("name", "");
 			bool[,] sample = new Bitmap($"Samples/{name}.png").ToArray();
@@ -89,7 +89,7 @@ class Pattern
 		Set((i, j) => field[(x + i + field.GetLength(0)) % field.GetLength(0), (y + j + field.GetLength(1)) % field.GetLength(1)]);	}
 
 	public Pattern Rotated() => new Pattern(Size, (x, y) => data[Size - 1 - y, x]);
-    public Pattern Reflected() => new Pattern(Size, (x, y) => data[Size - 1 - x, y]);
+	public Pattern Reflected() => new Pattern(Size, (x, y) => data[Size - 1 - x, y]);
 
 	public int Index
 	{
@@ -104,13 +104,13 @@ class Pattern
 
 static class Stuff
 {
-    public static T Get<T>(this XElement xelem, string attribute, T defaultT = default(T))
-    {
-        XAttribute a = xelem.Attribute(attribute);
-        return a == null ? defaultT : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(a.Value);
-    }
+	public static T Get<T>(this XElement xelem, string attribute, T defaultT = default(T))
+	{
+		XAttribute a = xelem.Attribute(attribute);
+		return a == null ? defaultT : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(a.Value);
+	}
 
-    public static bool[,] ToArray(this Bitmap bitmap)
+	public static bool[,] ToArray(this Bitmap bitmap)
 	{
 		bool[,] result = new bool[bitmap.Width, bitmap.Height];
 		for (int y = 0; y < result.GetLength(1); y++) for (int x = 0; x < result.GetLength(0); x++) result[x, y] = bitmap.GetPixel(x, y).R > 0;
