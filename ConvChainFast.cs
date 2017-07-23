@@ -7,8 +7,8 @@ The software is provided "as is", without warranty of any kind, express or impli
 */
 
 using System;
-using System.Xml;
 using System.Drawing;
+using System.Xml.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.ComponentModel;
@@ -19,35 +19,35 @@ static class Program
 	static void Main()
 	{
 		Stopwatch sw = Stopwatch.StartNew();
-		var xdoc = new XmlDocument();
-		xdoc.Load("samples.xml");
+        XDocument xdoc = XDocument.Load("samples.xml");
 		int pass = 1;
 
 		List<Job> jobs = new List<Job>();
 		Random random = new Random();
 
-		for (var xnode = xdoc.FirstChild.FirstChild; xnode != null; xnode = xnode.NextSibling)
+		foreach (XElement xelem in xdoc.Root.Elements("sample"))
 		{
-			for (int k = 0; k < xnode.Get("screenshots", 1); k++, pass++)
+			for (int k = 0; k < xelem.Get("screenshots", 1); k++, pass++)
 			{
-				Job job = new Job();
-				job.number = pass;
-				job.seed = random.Next();
-				job.name = xnode.Get("name", "");
-				job.temperature = xnode.Get("temperature", 1.0);
-				job.N = xnode.Get("receptorSize", 2);
-				job.outputSize = xnode.Get("outputSize", 32);
-				job.iterations = xnode.Get("iterations", 2);
-
-				jobs.Add(job);
+                Job job = new Job()
+                {
+                    number = pass,
+                    seed = random.Next(),
+                    name = xelem.Get("name", ""),
+                    temperature = xelem.Get("temperature", 1.0),
+                    N = xelem.Get("receptorSize", 2),
+                    outputSize = xelem.Get("outputSize", 32),
+                    iterations = xelem.Get("iterations", 2)
+                };
+                jobs.Add(job);
 			}
 		}
 
 		Parallel.ForEach(jobs, job =>
 		{
-			Bitmap sample = new Bitmap($"Samples/{job.name}.bmp");
+			Bitmap sample = new Bitmap($"Samples/{job.name}.png");
 			Bitmap output = ConvChain(sample.ToArray(), sample.Width, sample.Height, job.N, job.temperature, job.outputSize, job.iterations, job.seed).ToBitmap(job.outputSize);
-			output.Save($"{job.number} {job.name} t={job.temperature} i={job.iterations}.bmp");
+			output.Save($"{job.number} {job.name} t={job.temperature} i={job.iterations}.png");
 		});
 
 		Console.WriteLine($"time = {sw.ElapsedMilliseconds}");
@@ -67,17 +67,17 @@ static class Program
 		double[] weights = new double[1 << (N * N)];
 		Random random = new Random(seed);
 
-		Func<Func<int, int, bool>, bool[]> pattern = f =>
+		bool[] pattern(Func<int, int, bool> f)
 		{
 			bool[] result = new bool[N * N];
 			for (int y = 0; y < N; y++) for (int x = 0; x < N; x++) result[x + y * N] = f(x, y);
 			return result;
 		};
 
-		Func<bool[], bool[]> rotate = p => pattern((x, y) => p[N - 1 - y + x * N]);
-		Func<bool[], bool[]> reflect = p => pattern((x, y) => p[N - 1 - x + y * N]);
+		bool[] rotate(bool[] p) => pattern((x, y) => p[N - 1 - y + x * N]);
+		bool[] reflect(bool[] p) => pattern((x, y) => p[N - 1 - x + y * N]);
 
-		Func<bool[], int> index = p =>
+		int index(bool[] p)
 		{
 			int result = 0, power = 1;
 			for (int i = 0; i < p.Length; i++)
@@ -146,14 +146,13 @@ static class Program
 
 static class Stuff
 {
-	public static T Get<T>(this XmlNode node, string attribute, T defaultT = default(T))
-	{
-		string s = ((XmlElement)node).GetAttribute(attribute);
-		var converter = TypeDescriptor.GetConverter(typeof(T));
-		return s == "" ? defaultT : (T)converter.ConvertFromInvariantString(s);
-	}
+    public static T Get<T>(this XElement xelem, string attribute, T defaultT = default(T))
+    {
+        XAttribute a = xelem.Attribute(attribute);
+        return a == null ? defaultT : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(a.Value);
+    }
 
-	public static bool[] ToArray(this Bitmap bitmap)
+    public static bool[] ToArray(this Bitmap bitmap)
 	{
 		bool[] result = new bool[bitmap.Width * bitmap.Height];
 		for (int i = 0; i < result.Length; i++) result[i] = bitmap.GetPixel(i % bitmap.Width, i / bitmap.Width).R > 0;

@@ -1,30 +1,29 @@
 //This is free and unencumbered software released into the public domain.
 
 using System;
-using System.Xml;
 using System.Drawing;
+using System.Xml.Linq;
 using System.ComponentModel;
 
 class Program
 {
 	static void Main()
 	{
-		var xdoc = new XmlDocument();
-		xdoc.Load("samples.xml");
+        XDocument xdoc = XDocument.Load("samples.xml");
 		int pass = 1;
 
-		for (var xnode = xdoc.FirstChild.FirstChild; xnode != null; xnode = xnode.NextSibling)
+        foreach (XElement xelem in xdoc.Root.Elements("sample"))
 		{
-			string name = xnode.Get("name", "");
-			bool[,] sample = new Bitmap($"Samples/{name}.bmp").ToArray();
-			int receptorSize = xnode.Get("receptorSize", 2), outputSize = xnode.Get("outputSize", 32), iterations = xnode.Get("iterations", 2);
-			double temperature = xnode.Get("temperature", 1.0);
+			string name = xelem.Get("name", "");
+			bool[,] sample = new Bitmap($"Samples/{name}.png").ToArray();
+			int receptorSize = xelem.Get("receptorSize", 2), outputSize = xelem.Get("outputSize", 32), iterations = xelem.Get("iterations", 2);
+			double temperature = xelem.Get("temperature", 1.0);
 
-			for (int k = 0; k < xnode.Get("screenshots", 1); k++)
+			for (int k = 0; k < xelem.Get("screenshots", 1); k++)
 			{
 				Console.WriteLine($"> {name} {k}");
 				Bitmap output = ConvChain(sample, receptorSize, temperature, outputSize, iterations).ToBitmap();
-				output.Save($"{pass} {name} t={temperature} i={iterations} {k}.bmp");
+				output.Save($"{pass} {name} t={temperature} i={iterations} {k}.png");
 			}
 
 			pass++;
@@ -42,13 +41,13 @@ class Program
 				Pattern[] p = new Pattern[8];
 
 				p[0] = new Pattern(sample, x, y, N);
-				p[1] = p[0].Rotated;
-				p[2] = p[1].Rotated;
-				p[3] = p[2].Rotated;
-				p[4] = p[0].Reflected;
-				p[5] = p[1].Reflected;
-				p[6] = p[2].Reflected;
-				p[7] = p[3].Reflected;
+				p[1] = p[0].Rotated();
+				p[2] = p[1].Rotated();
+				p[3] = p[2].Rotated();
+				p[4] = p[0].Reflected();
+				p[5] = p[1].Reflected();
+				p[6] = p[2].Reflected();
+				p[7] = p[3].Reflected();
 
 				for (int k = 0; k < 8; k++) weights[p[k].Index] += 1;
 			}
@@ -56,14 +55,14 @@ class Program
 		for (int k = 0; k < weights.Length; k++) if (weights[k] <= 0) weights[k] = 0.1;
 		for (int y = 0; y < size; y++) for (int x = 0; x < size; x++) field[x, y] = random.Next(2) == 1;
 
-		Func<int, int, double> energyExp = (i, j) =>
+		double energyExp(int i, int j)
 		{
 			double value = 1.0;
 			for (int y = j - N + 1; y <= j + N - 1; y++) for (int x = i - N + 1; x <= i + N - 1; x++) value *= weights[new Pattern(field, x, y, N).Index];
 			return value;
 		};
 
-		Action<int, int> metropolis = (i, j) =>
+		void metropolis(int i, int j)
 		{
 			double p = energyExp(i, j);
 			field[i, j] = !field[i, j];
@@ -89,8 +88,8 @@ class Pattern
 	public Pattern(bool[,] field, int x, int y, int size) : this(size, (i, j) => false) {
 		Set((i, j) => field[(x + i + field.GetLength(0)) % field.GetLength(0), (y + j + field.GetLength(1)) % field.GetLength(1)]);	}
 
-	public Pattern Rotated { get { return new Pattern(Size, (x, y) => data[Size - 1 - y, x]); } }
-	public Pattern Reflected { get { return new Pattern(Size, (x, y) => data[Size - 1 - x, y]);	} }
+	public Pattern Rotated() => new Pattern(Size, (x, y) => data[Size - 1 - y, x]);
+    public Pattern Reflected() => new Pattern(Size, (x, y) => data[Size - 1 - x, y]);
 
 	public int Index
 	{
@@ -105,14 +104,13 @@ class Pattern
 
 static class Stuff
 {
-	public static T Get<T>(this XmlNode node, string attribute, T defaultT = default(T))
-	{
-		string s = ((XmlElement)node).GetAttribute(attribute);
-		var converter = TypeDescriptor.GetConverter(typeof(T));
-		return s == "" ? defaultT : (T)converter.ConvertFromInvariantString(s);
-	}
+    public static T Get<T>(this XElement xelem, string attribute, T defaultT = default(T))
+    {
+        XAttribute a = xelem.Attribute(attribute);
+        return a == null ? defaultT : (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(a.Value);
+    }
 
-	public static bool[,] ToArray(this Bitmap bitmap)
+    public static bool[,] ToArray(this Bitmap bitmap)
 	{
 		bool[,] result = new bool[bitmap.Width, bitmap.Height];
 		for (int y = 0; y < result.GetLength(1); y++) for (int x = 0; x < result.GetLength(0); x++) result[x, y] = bitmap.GetPixel(x, y).R > 0;
