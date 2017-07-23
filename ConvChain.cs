@@ -49,7 +49,7 @@ class Program
 				p[6] = p[2].Reflected();
 				p[7] = p[3].Reflected();
 
-				for (int k = 0; k < 8; k++) weights[p[k].Index] += 1;
+				for (int k = 0; k < 8; k++) weights[p[k].Index()] += 1;
 			}
 
 		for (int k = 0; k < weights.Length; k++) if (weights[k] <= 0) weights[k] = 0.1;
@@ -58,7 +58,7 @@ class Program
 		double energyExp(int i, int j)
 		{
 			double value = 1.0;
-			for (int y = j - N + 1; y <= j + N - 1; y++) for (int x = i - N + 1; x <= i + N - 1; x++) value *= weights[new Pattern(field, x, y, N).Index];
+			for (int y = j - N + 1; y <= j + N - 1; y++) for (int x = i - N + 1; x <= i + N - 1; x++) value *= weights[new Pattern(field, x, y, N).Index()];
 			return value;
 		};
 
@@ -80,25 +80,22 @@ class Pattern
 {
 	public bool[,] data;
 
-	private int Size { get { return data.GetLength(0); } }
-	private void Set(Func<int, int, bool> f) { for (int j = 0; j < Size; j++) for (int i = 0; i < Size; i++) data[i, j] = f(i, j); }
+	private int Size() => data.GetLength(0);
+	private void Set(Func<int, int, bool> f) { for (int j = 0; j < Size(); j++) for (int i = 0; i < Size(); i++) data[i, j] = f(i, j); }
 
 	public Pattern(int size, Func<int, int, bool> f) { data = new bool[size, size];	Set(f);	}
 
 	public Pattern(bool[,] field, int x, int y, int size) : this(size, (i, j) => false) {
 		Set((i, j) => field[(x + i + field.GetLength(0)) % field.GetLength(0), (y + j + field.GetLength(1)) % field.GetLength(1)]);	}
 
-	public Pattern Rotated() => new Pattern(Size, (x, y) => data[Size - 1 - y, x]);
-	public Pattern Reflected() => new Pattern(Size, (x, y) => data[Size - 1 - x, y]);
+	public Pattern Rotated() => new Pattern(Size(), (x, y) => data[Size() - 1 - y, x]);
+	public Pattern Reflected() => new Pattern(Size(), (x, y) => data[Size() - 1 - x, y]);
 
-	public int Index
+	public int Index()
 	{
-		get
-		{
-			int result = 0;
-			for (int y = 0; y < Size; y++) for (int x = 0; x < Size; x++) result += data[x, y] ? 1 << (y * Size + x) : 0;
-			return result; 
-		}
+		int result = 0;
+		for (int y = 0; y < Size(); y++) for (int x = 0; x < Size(); x++) result += data[x, y] ? 1 << (y * Size() + x) : 0;
+		return result; 
 	}
 }
 
