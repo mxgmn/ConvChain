@@ -45,7 +45,7 @@ static class Program
 
 		Parallel.ForEach(jobs, job =>
 		{
-			Bitmap sample = new Bitmap($"Samples/{job.name}.png");
+			Bitmap sample = new Bitmap($"samples/{job.name}.png");
 			Bitmap output = ConvChain(sample.ToArray(), sample.Width, sample.Height, job.N, job.temperature, job.outputSize, job.iterations, job.seed).ToBitmap(job.outputSize);
 			output.Save($"{job.number} {job.name} t={job.temperature} i={job.iterations}.png");
 		});

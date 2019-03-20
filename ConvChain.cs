@@ -15,7 +15,7 @@ class Program
 		foreach (XElement xelem in xdoc.Root.Elements("sample"))
 		{
 			string name = xelem.Get("name", "");
-			bool[,] sample = new Bitmap($"Samples/{name}.png").ToArray();
+			bool[,] sample = new Bitmap($"samples/{name}.png").ToArray();
 			int receptorSize = xelem.Get("receptorSize", 2), outputSize = xelem.Get("outputSize", 32), iterations = xelem.Get("iterations", 2);
 			double temperature = xelem.Get("temperature", 1.0);
 
