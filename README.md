@@ -41,6 +41,12 @@ If you freeze out the system as the Metropolis simulation goes on, you'll get a 
 
 The [detailed balance](https://en.wikipedia.org/wiki/Detailed_balance#Reversible_Markov_chains) condition for ConvChain is `exp(-E1/T)p(S2|S1) = exp(-E2/T)p(S1|S2)`, so both Gibbs `p(S2|S1) ~ exp(-E2/T)` and Metropolis `p(S2|S1) = min(1, exp(-(E2-E1)/T))` chains converge to the desired distribution over states.
 
+## Related work
+1. Stuart Geman and Donald Geman, [Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images](http://image.diku.dk/imagecanon/material/GemanPAMI84.pdf), 1984.
+2. Kris Popat and Rosalind W. Picard, [Novel cluster-based probability model for texture synthesis, classiffcation, and compression](https://pdfs.semanticscholar.org/9929/e48e11e7fa6a8f8f78889798b2b1ccd68a36.pdf), 1993.
+3. Rupert Paget and I. Dennis Longstaf, [Texture Synthesis via a Non-parametric Markov Random Field](http://www.texturesynthesis.com/papers/Paget_DICTA_1995.pdf), 1995.
+4. Vivek Kwatra, Irfan Essa, Aaron Bobick and Nipun Kwatra, [Texture Optimization for Example-based Synthesis](https://www.cc.gatech.edu/cpl/projects/textureoptimization/), 2005.
+
 ## How to build
 ConvChain is a console application that depends only on the standard library. Get .NET Core for Windows, Linux or macOS and run
 ```
