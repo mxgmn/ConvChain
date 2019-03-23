@@ -58,6 +58,7 @@ dotnet run ConvChain.csproj
 * [Kevin Chapelier](https://github.com/kchapelier) made an interactive vanilla JavaScript [port](http://www.kchapelier.com/convchain-demo/continuous.html) of the faster version and a [1KB adaptation](https://js1k.com/2019-x/demo/4069) of it.
 * [Amit](https://github.com/amitp) [Patel](https://github.com/redblobgames) made a [web port](http://www.redblobgames.com/x/1613-convchain/) of the older slower version, with the main algorithm ported to TypeScript.
 * [buckle2000](https://github.com/buckle2000) made a [Processing (Java) port](https://github.com/buckle2000/ConvChainJava) and a [MoonScript port](https://github.com/buckle2000/ConvChainMoon).
+* Kevin Chapelier [adapted](https://github.com/kchapelier/convchain-gpu) ConvChain to run on a GPU and made an interactive [WebGL2 demo](http://www.kchapelier.com/convchain-gpu-demo/continuous-example.html).
 
 <p align="center"><img alt="mix" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/convchain-mix.png"></p>
 <p align="center"><img alt="convchain-3d-collage" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/convchain-3d.png"></p>
