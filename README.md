@@ -2,8 +2,8 @@ ConvChain is a Markov chain of images that converges to input-like images. That 
 
 In the examples a typical value of N is 3.
 
-<p align="center"><img alt="main collage" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/convchain.png"></p>
-<p align="center"><img alt="main gif" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/convchain.gif"></p>
+<p align="center"><img src="images/convchain.png"></p>
+<p align="center"><img src="images/convchain.gif"></p>
 
 How to construct such a process? We want the final probability of a given pattern to be proportional to the pattern's weight, where pattern's weight is the number of such patterns in the input. For this it is sufficient that a stronger condition is satisfied: the probability of a given state (image) `S` should be proportional to the product of pattern weights over all patterns in `S`.
 ```
@@ -33,7 +33,7 @@ If there are more than 2 colors, Gibbs sampling may converge faster than Metropo
 ## Comments
 ConvChain supports constraints, so you can easily combine it with other generators or [handcrafted content](http://i.imgur.com/byyKHre.gif).
 
-<p align="center"><img alt="constrained-convchain" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/constrained-convchain.gif"></p>
+<p align="center"><img src="images/constrained-convchain.gif"></p>
 
 In the language of [WFC readme](https://github.com/mxgmn/WaveFunctionCollapse) ConvChain satisfies strong condition 2 (Strong C2), but not condition 1 (C1).
 
@@ -50,7 +50,7 @@ The [detailed balance](https://en.wikipedia.org/wiki/Detailed_balance#Reversible
 ## How to build
 ConvChain is a console application that depends only on the standard library. Get .NET Core for Windows, Linux or macOS and run
 ```
-dotnet run ConvChain.csproj
+dotnet run --configuration Release ConvChain.csproj
 ```
 `ConvChain.cs` contains the basic program, `ConvChainFast.cs` contains an equivalent faster program (~100 times faster on a 4-core CPU), but in a less human-readable form.
 
@@ -60,5 +60,5 @@ dotnet run ConvChain.csproj
 * [buckle2000](https://github.com/buckle2000) made a [Processing (Java) port](https://github.com/buckle2000/ConvChainJava) and a [MoonScript port](https://github.com/buckle2000/ConvChainMoon).
 * Kevin Chapelier [adapted](https://github.com/kchapelier/convchain-gpu) ConvChain to run on a GPU and made an interactive [WebGL2 demo](http://www.kchapelier.com/convchain-gpu-demo/continuous-example.html).
 
-<p align="center"><img alt="mix" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/convchain-mix.png"></p>
-<p align="center"><img alt="convchain-3d-collage" src="https://raw.githubusercontent.com/mxgmn/Blog/master/resources/convchain-3d.png"></p>
+<p align="center"><img src="images/convchain-mix.png"></p>
+<p align="center"><img src="images/convchain-3d.png"></p>
